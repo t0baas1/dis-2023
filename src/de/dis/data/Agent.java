@@ -75,7 +75,7 @@ public class Agent {
 			Connection con = DbConnectionManager.getInstance().getConnection();
 
 			// Create SQL-Statement
-			String selectSQL = "SELECT * FROM Agent WHERE id = ?";
+			String selectSQL = "SELECT * FROM estate_agent WHERE id = ?";
 			PreparedStatement pstmt = con.prepareStatement(selectSQL);
 			pstmt.setInt(1, id);
 
@@ -134,7 +134,7 @@ public class Agent {
 				pstmt.close();
 			} else {
 				// if ID is set, update existing record
-				String updateSQL = "UPDATE Agent SET name = ?, address = ?, login = ?, password = ? WHERE id = ?";
+				String updateSQL = "UPDATE estate_agent SET name = ?, address = ?, login = ?, password = ? WHERE id = ?";
 				PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
 				// Set SQL-Parameters and execute
@@ -147,6 +147,23 @@ public class Agent {
 
 				pstmt.close();
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void delete(int id) {
+
+		try {
+			// add new record, if no ID is set yet (ID = -1) to the database
+			Connection con = DbConnectionManager.getInstance().getConnection();
+
+			// Create SQL-Statement
+			String selectSQL = "DELETE FROM estate_agent WHERE id = ?";
+			PreparedStatement pstmt = con.prepareStatement(selectSQL);
+			pstmt.setInt(1, id);
+			pstmt.executeQuery();
+			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
