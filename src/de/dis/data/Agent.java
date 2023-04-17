@@ -98,6 +98,37 @@ public class Agent {
 		}
 		return null;
 	}
+
+	public static Agent check(String username, String password) {
+		try {
+			// Get Connection
+			Connection con = DbConnectionManager.getInstance().getConnection();
+
+			// Create SQL-Statement
+			String selectSQL = "SELECT * FROM estate_agent WHERE login = ? AND password = ?";
+			PreparedStatement pstmt = con.prepareStatement(selectSQL);
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+
+			// run SQL-Statement
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				Agent ts = new Agent();
+				ts.setId(rs.getInt("id"));
+				ts.setName(rs.getString("name"));
+				ts.setAddress(rs.getString("address"));
+				ts.setLogin(rs.getString("login"));
+				ts.setPassword(rs.getString("password"));
+
+				rs.close();
+				pstmt.close();
+				return ts;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	};
 	
 	/**
 	 * Saves the Agent in the database. If the Agent has no ID, a new record is
@@ -162,7 +193,7 @@ public class Agent {
 			String selectSQL = "DELETE FROM estate_agent WHERE id = ?";
 			PreparedStatement pstmt = con.prepareStatement(selectSQL);
 			pstmt.setInt(1, id);
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

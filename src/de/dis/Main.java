@@ -74,11 +74,18 @@ public class Main {
 	 */
 	public static void showEstatePasswordMenu() {
 		// Menu Options
+		String user = readString("Type username");
 		String password = readString("Type password");
-		Boolean login = password.equals("secret");
-		if (login) {
+
+		Agent n = new Agent();
+		Agent m = n.check(user,password);
+
+		if (m != null) {
+			System.out.println("Welcome!");
+			System.out.println("");
 			showEstateMenu();
 		} else{
+			System.out.println("Wrong credentials!");
 			return;
 		}
 	}
@@ -283,7 +290,7 @@ public class Main {
 				int temp = m.getId();
 				m.delete(temp);
 				System.out.println("Agent with ID " + temp + " was deleted.");
-				return;
+				break;
 			case NO:
 				return;
 			}
@@ -388,7 +395,7 @@ public class Main {
 	 */
 	public static void updateApartment() {
 		Apartment n = new Apartment();
-		int id = readInt("Give apartment Id: ");
+		int id = readInt("Give apartment Id");
 
 		Apartment m = n.load(id);
 
@@ -419,16 +426,9 @@ public class Main {
 	 */
 	public static void deleteApartment() {
 		Apartment m = new Apartment();
-		int id = readInt("Give apartment Id: ");
-
-		m.load(id);
-
-		if (m == null) {
-			System.out.println("Apartment was not found");
-			return;
-		}
-		m.delete(m.getId());
-
+		int id = readInt("Give Apartment Id");
+		m.setId(id);
+		m.delete(id);
 		System.out.println("Apartment with ID " + id + " was deleted.");
 	}
 
@@ -521,15 +521,9 @@ public class Main {
 	public static void deleteHouse() {
 		House m = new House();
 		int id = readInt("Give House Id: ");
-
-		m.load(id);
-
-		if (m == null) {
-			System.out.println("House was not found");
-			return;
-		}
-		m.delete(m.getId());
-
+		m.setId(id);
+		m.delete(id);
 		System.out.println("House with ID " + id + " was deleted.");
+
 	}
 }

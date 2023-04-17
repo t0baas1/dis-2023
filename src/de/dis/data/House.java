@@ -236,7 +236,7 @@ public class House{
             String selectSQL = "DELETE FROM house WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(selectSQL);
             pstmt.setInt(1, id);
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
             pstmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
